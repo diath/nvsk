@@ -2,7 +2,7 @@ const Plugin = require('../plugin')
 
 class Commands extends Plugin
 {
-    constructor()
+    constructor(bot)
     {
         super({
             name: 'Commands',

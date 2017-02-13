@@ -23,6 +23,7 @@ class Bot
         this.client.addListener('part', this.on_part.bind(this))
         this.client.addListener('kick', this.on_kick.bind(this))
 
+        this.config = config
         this.plugins = []
         this.trigger = config.trigger
     }
@@ -31,7 +32,7 @@ class Bot
     {
         fs.readdirSync('./nvsk/plugins').forEach(name => {
             let plugin = require(`./plugins/${name.slice(0, -3)}`).Plugin
-            this.plugins.push(new plugin())
+            this.plugins.push(new plugin(this))
         })
 
         console.log(`* Loaded ${this.plugins.length} plugins...`)
