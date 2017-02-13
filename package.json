@@ -1,0 +1,27 @@
+{
+  "name": "nvsk",
+  "version": "1.0.0",
+  "description": "IRC bot",
+  "main": "run.js",
+  "scripts": {
+    "start": "node run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diath/nvsk.git"
+  },
+  "keywords": [
+    "irc",
+    "bot",
+    "utility"
+  ],
+  "author": "diath <diath@zodiaclabs.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diath/nvsk/issues"
+  },
+  "homepage": "https://github.com/diath/nvsk#readme",
+  "dependencies": {
+    "irc": "^0.5.2"
+  }
+}
