@@ -22,7 +22,7 @@ class Wordnik extends Plugin
                 if (info.length == 0) {
                     bot.say(data.to, `No definitions for "${data.param}".`)
                 } else {
-                    bot.say(data.to, `Definitions for "${data.param}:\n- ${info.slice(0, 3).map(v => v.text).join('\n- ')}`)
+                    bot.say(data.to, `Definitions for "${data.param}":\n- ${info.slice(0, 3).map(v => v.text).join('\n- ')}`)
                 }
             }
         })
