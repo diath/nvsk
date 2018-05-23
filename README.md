@@ -3,8 +3,8 @@ nvsk
 
 nvsk is a utility bot for IRC written in JavaScript with the help of the [node-irc](https://github.com/martynsmith/node-irc) library.
 
-Requiremens
-===========
+Requirements
+============
 
 nvsk requires Node.js to run as well as the set of the following libraries:
 
