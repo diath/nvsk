@@ -1,9 +1,7 @@
 const Plugin = require('../plugin')
 
-class Calculator extends Plugin
-{
-    constructor(bot)
-    {
+class Calculator extends Plugin {
+    constructor(bot) {
         super({
             name: 'Calculator',
             command: 'calc',
@@ -13,8 +11,7 @@ class Calculator extends Plugin
         this.client = require('wolfram-alpha').createClient(bot.config.tokens.wolfram)
     }
 
-    get_wa_result(data)
-    {
+    get_wa_result(data) {
         for (let block of data) {
             if (block.title == 'Result') {
                 return block.subpods[0].text
@@ -24,8 +21,7 @@ class Calculator extends Plugin
         return null
     }
 
-    callback(bot, data)
-    {
+    callback(bot, data) {
         this.client.query(data.param, (err, result) => {
             if (err) {
                 bot.say(data.to, `Calculator error: ${err}`)

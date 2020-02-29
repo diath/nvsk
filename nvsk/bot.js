@@ -1,11 +1,13 @@
 const fs = require('fs')
 const irc = require('irc')
 
-class Bot
-{
-    constructor(config)
-    {
-        console.log('* Starting up...')
+const log = (message) => {
+    console.log(`* [${new Date().toUTCString()}] ${message}`)
+}
+
+class Bot {
+    constructor(config) {
+        log('Starting up...')
 
         this.client = new irc.Client(config.server, config.name, {
             port: config.port,
@@ -28,26 +30,23 @@ class Bot
         this.trigger = config.trigger
     }
 
-    load()
-    {
+    load() {
         fs.readdirSync('./nvsk/plugins').forEach(name => {
             let plugin = require(`./plugins/${name.slice(0, -3)}`).Plugin
             this.plugins.push(new plugin(this))
         })
 
-        console.log(`* Loaded ${this.plugins.length} plugins...`)
+        log(`Loaded ${this.plugins.length} plugins...`)
         for (let plugin of this.plugins) {
-            console.log(`\t- ${plugin.name}`)
+            log(`\t- ${plugin.name}`)
         }
     }
 
-    run()
-    {
+    run() {
         this.client.connect()
     }
 
-    get_commands()
-    {
+    get_commands() {
         let commands = []
         this.plugins.forEach(plugin => {
             if (plugin.command !== undefined) {
@@ -63,25 +62,22 @@ class Bot
         return commands
     }
 
-    on_error(message)
-    {
+    on_error(message) {
         console.error(`Server error: ${message}`)
     }
 
-    on_ready()
-    {
+    on_ready() {
         this.plugins.forEach(plugin => plugin.on_ready(this))
-        console.log('* Ready')
+        log('Ready')
     }
 
-    on_message(from, to, message)
-    {
+    on_message(from, to, message) {
         this.plugins.forEach(plugin => plugin.on_message(this, from, to, message))
 
         if (to.charAt(0) == '#') {
-            console.log(`* [${to}] ${from}: ${message}`)
+            log(`[${to}] ${from}: ${message}`)
         } else {
-            console.log(`* [Private] ${from}: ${message}`)
+            log(`[Private] ${from}: ${message}`)
         }
 
         // Commands cannot be triggered by the bot nor via a PM
@@ -133,26 +129,22 @@ class Bot
         })
     }
 
-    on_join(channel, name, message)
-    {
+    on_join(channel, name, message) {
         this.plugins.forEach(plugin => plugin.on_join(this, channel, name, message))
-        console.log(`* ${name} has joined ${channel}.`)
+        log(`${name} has joined ${channel}.`)
     }
 
-    on_part(channel, name, reason)
-    {
+    on_part(channel, name, reason) {
         this.plugins.forEach(plugin => plugin.on_part(this, channel, name, reason))
-        console.log(`* ${name} has left ${channel} (${reason}).`)
+        log(`${name} has left ${channel} (${reason}).`)
     }
 
-    on_kick(channel, name, by, reason)
-    {
+    on_kick(channel, name, by, reason) {
         this.plugins.forEach(plugin => plugin.on_kick(this, channel, name, by, reason))
-        console.log(`* ${by} has kicked ${name} from ${channel} (${reason}).`)
+        log(`${by} has kicked ${name} from ${channel} (${reason}).`)
     }
 
-    say(channel, message)
-    {
+    say(channel, message) {
         this.client.say(channel, message)
     }
 }
